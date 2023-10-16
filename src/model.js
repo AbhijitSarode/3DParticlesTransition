@@ -4,6 +4,9 @@ import gsap from 'gsap';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler'
 
+import vertex from './shaders/vertex.glsl'
+import fragment from './shaders/fragment.glsl'
+
 export default class Model {
     constructor (obj) {
 
@@ -44,46 +47,8 @@ export default class Model {
                     uTime: {value: 0},
                     uScale: {value: 0},
                 },
-                vertexShader: `
-                attribute vec3 aRandom;
-                varying vec3 vPosition;
-                uniform float uTime;
-                uniform float uScale;
-                
-                void main() {
-                    vPosition = position;
-                    vec3 pos = position;
-                    float time = uTime * 4.0;
-
-                    pos.x += sin(time * aRandom.x) * 0.01;
-                    pos.y += cos(time * aRandom.y) * 0.01;
-                    pos.z += cos(time * aRandom.z) * 0.01;
-
-                    pos.x *= uScale + sin(pos.y * 4.0 + time) * (1.0 - uScale);
-                    pos.y *= uScale + sin(pos.z * 4.0 + time) * (1.0 - uScale);
-                    pos.z *= uScale + sin(pos.x * 4.0 + time) * (1.0 - uScale);
-
-                    pos *= uScale;
-
-                    vec4 mvPosition = modelViewMatrix * vec4( pos, 1.0 );
-                    gl_Position = projectionMatrix * mvPosition;
-                    gl_PointSize = 8.0 / -mvPosition.z;
-                  }`,
-                fragmentShader: `
-                varying vec3 vPosition;
-                uniform vec3 uColor1;
-                uniform vec3 uColor2;
-
-                void main() {
-                    vec3 color = vec3(1.0, 0.0, 0.0);
-                    vec3 color1 = vec3(1.0, 0.0, 0.0);
-                    vec3 color2 = vec3(1.0, 0.0, 0.0);
-                    float depth = vPosition.z * 0.5 + 0.5;
-                    color.r = 0.0;
-                    
-                    color = mix(uColor1, uColor2, depth);
-                    gl_FragColor = vec4(color, depth * 0.3 + 0.2);
-                  }`,
+                vertexShader: vertex,
+                fragmentShader: fragment,
                 transparent: true,
                 depthTest: false,
                 depthWrite: false,
