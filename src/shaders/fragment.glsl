@@ -1,7 +1,7 @@
-varying mediump vec3 vPosition;
+varying lowp vec3 vPosition;
 
-uniform mediump vec3 uColor1;
-uniform mediump vec3 uColor2;
+uniform lowp vec3 uColor1;
+uniform lowp vec3 uColor2;
 
 void main() {
     vec3 color = vec3(1.0, 0.0, 0.0);
