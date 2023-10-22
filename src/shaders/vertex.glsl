@@ -1,9 +1,9 @@
-attribute vec3 aRandom;
+attribute mediump vec3 aRandom;
 
-varying vec3 vPosition;
+varying mediump vec3 vPosition;
 
-uniform float uTime;
-uniform float uScale;
+uniform mediump float uTime;
+uniform mediump float uScale;
 
 void main() {
     vPosition = position;
